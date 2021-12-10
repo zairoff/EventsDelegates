@@ -1,5 +1,5 @@
-﻿using External.Encoder;
-using External.Notification;
+﻿using Encoder;
+using Notification;
 using System;
 
 namespace Demo
@@ -14,12 +14,17 @@ namespace Demo
             var emailService = new EmailService();
             var smsService = new SmsService();
 
-            videoEncoder.Encoded += emailService.Send;
-            videoEncoder.Encoded += smsService.Send;
-            audioEncoder.Encoded += emailService.Send;
-            audioEncoder.Encoded += smsService.Send;
+            var notificationProvider = new NotificationProvider();
+            notificationProvider.Add(emailService);
+            notificationProvider.Add(smsService);
 
-            videoEncoder.Encode(new byte[10]);         
+            videoEncoder.Preparing += (sender, args) => Console.WriteLine("Preparing to encode");
+            videoEncoder.Starting += (sender, args) => Console.WriteLine("Starting to encode");
+            audioEncoder.Finishing += (sender, args) => Console.WriteLine("Finishing to encode");
+
+            audioEncoder.Encoded += (sender, args) => notificationProvider.Notify();
+
+            videoEncoder.Encode(null);
             audioEncoder.Encode(null);
         }
     }

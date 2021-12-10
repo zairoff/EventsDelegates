@@ -15,7 +15,7 @@ namespace Notification
             _services = new List<INotificationService>();
         }
 
-        public void Subscribe(INotificationService service)
+        public void Add(INotificationService service)
         {
             _services.Add(service);
         }

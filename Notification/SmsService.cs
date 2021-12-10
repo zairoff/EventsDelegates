@@ -10,7 +10,7 @@ namespace Notification
     {
         public void Send(string message)
         {
-            Console.WriteLine($"Sending sms... {message}");
+            Console.WriteLine(message);
         }
     }
 }

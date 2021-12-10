@@ -7,34 +7,9 @@ using System.Threading.Tasks;
 
 namespace Encoder
 {
-    public class AudioEncoder : IEncoder
+    public class AudioEncoder : BaseEncoder
     {
-        public event EventHandler Preparing;
-        public event EventHandler Starting;
-        public event EventHandler Finishing;
-        public event EventHandler Encoded;
-
-        protected void OnPreparing()
-        {
-            Preparing?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected void OnStarting()
-        {
-            Starting?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected void OnFinishing()
-        {
-            Finishing?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected void OnEncoded()
-        {
-            Encoded?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void Encode(byte[] source)
+        public override void Encode(byte[] source)
         {
             OnPreparing();
 

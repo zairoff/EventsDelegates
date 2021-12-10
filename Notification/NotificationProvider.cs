@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Notification
 {
-    public class NotificationSender
+    public class NotificationProvider
     {
         private readonly List<INotificationService> _services;
 
-        public NotificationSender()
+        public NotificationProvider()
         {
             _services = new List<INotificationService>();
         }

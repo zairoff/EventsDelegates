@@ -1,4 +1,5 @@
 ﻿using Encoder;
+using Encoder.Factory;
 using Notification;
 using System;
 
@@ -8,8 +9,19 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            var videoEncoder = new VideoEncoder();
-            var audioEncoder = new AudioEncoder();
+            EncoderFactory encoderFactory = null;
+
+            Console.WriteLine("Choose encoder type: a) Audio Encoder/n b) Video Encoder/n Default encoder is AudioEncoder");
+
+            var encoderType = Console.ReadLine();
+
+            encoderFactory = encoderType.ToLower() switch
+            {
+                "a" => new AudioFactory(),
+                "b" => new VideoFactory(),
+                _ => new AudioFactory(),
+            };
+            var encoder = encoderFactory.GetEncoder();
 
             var emailService = new EmailService();
             var smsService = new SmsService();
@@ -18,14 +30,13 @@ namespace Demo
             notificationProvider.Add(emailService);
             notificationProvider.Add(smsService);
 
-            videoEncoder.Preparing += (sender, args) => Console.WriteLine("Preparing to encode");
-            videoEncoder.Starting += (sender, args) => Console.WriteLine("Starting to encode");
-            audioEncoder.Finishing += (sender, args) => Console.WriteLine("Finishing to encode");
+            encoder.Preparing += (sender, args) => Console.WriteLine(args.Message);
+            encoder.Starting += (sender, args) => Console.WriteLine(args.Message);
+            encoder.Finishing += (sender, args) => Console.WriteLine(args.Message);
 
-            audioEncoder.Encoded += (sender, args) => notificationProvider.Notify();
+            encoder.Encoded += (sender, args) => notificationProvider.Notify();
 
-            videoEncoder.Encode(null);
-            audioEncoder.Encode(null);
+            encoder.Encode(null);
         }
     }
 }

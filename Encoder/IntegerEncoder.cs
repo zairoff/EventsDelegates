@@ -17,7 +17,7 @@ namespace Encoder
 
         public override void Encode(byte[] source)
         {
-            OnPreparing(new EncoderEventArgs("Audio is preparing to be encoded..."));
+            OnPreparing(new EncoderEventArgs("Integer is preparing to be encoded... Random number is: " + Random));
 
             if (Random % 2 != 0)
                 return;

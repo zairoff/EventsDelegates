@@ -1,4 +1,5 @@
-﻿using Encoder.Factory;
+﻿using Encoder;
+using Encoder.Factory;
 using Notification;
 using System;
 
@@ -27,13 +28,18 @@ namespace Demo
 
             var encoder = encoderFactory.GetEncoder();
 
+            SubscribeToEvents(encoder, notificationProvider);
+
+            encoder.Encode(null);
+        }
+
+        static void SubscribeToEvents(BaseEncoder encoder, NotificationProvider notificationProvider)
+        {
             encoder.Preparing += (sender, args) => Console.WriteLine(args.Message);
             encoder.Starting += (sender, args) => Console.WriteLine(args.Message);
             encoder.Finishing += (sender, args) => Console.WriteLine(args.Message);
 
             encoder.Encoded += (sender, args) => notificationProvider.Notify();
-
-            encoder.Encode(null);
         }
     }
 }

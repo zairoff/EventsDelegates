@@ -13,7 +13,7 @@ namespace Encoder
         {
             OnPreparing(new EncoderEventArgs("Video is preparing to be encoded..."));
 
-            OnStarting(new EncoderEventArgs("Started encoding..."));
+            OnStarting(new EncoderEventArgs("Starting encoding..."));
 
             OnFinishing(new EncoderEventArgs("Finishing encoding..."));
 

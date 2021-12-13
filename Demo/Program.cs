@@ -9,10 +9,16 @@ namespace Demo
     {
         static void Main(string[] args)
         {
+            var emailService = new EmailService();
+            var smsService = new SmsService();
+
+            var notificationProvider = new NotificationProvider();
+            notificationProvider.Add(emailService);
+            notificationProvider.Add(smsService);
+
+            Console.WriteLine("Choose encoder type:\n a) Audio Encoder\n b) Video Encoder\n Default encoder is AudioEncoder");
+
             EncoderFactory encoderFactory = null;
-
-            Console.WriteLine("Choose encoder type: a) Audio Encoder/n b) Video Encoder/n Default encoder is AudioEncoder");
-
             var encoderType = Console.ReadLine();
 
             encoderFactory = encoderType.ToLower() switch
@@ -21,14 +27,8 @@ namespace Demo
                 "b" => new VideoFactory(),
                 _ => new AudioFactory(),
             };
+
             var encoder = encoderFactory.GetEncoder();
-
-            var emailService = new EmailService();
-            var smsService = new SmsService();
-
-            var notificationProvider = new NotificationProvider();
-            notificationProvider.Add(emailService);
-            notificationProvider.Add(smsService);
 
             encoder.Preparing += (sender, args) => Console.WriteLine(args.Message);
             encoder.Starting += (sender, args) => Console.WriteLine(args.Message);

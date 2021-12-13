@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Encoder.Factory
 {
-    public class VideoFactory : EncoderFactory
+    public class IntegerFactory : EncoderFactory
     {
         public override BaseEncoder GetEncoder()
         {
-            return new VideoEncoder();
+            return new IntegerEncoder(new Random().Next(1, 100));
         }
     }
 }

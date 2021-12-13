@@ -1,5 +1,4 @@
-﻿using Encoder;
-using Encoder.Factory;
+﻿using Encoder.Factory;
 using Notification;
 using System;
 
@@ -16,18 +15,15 @@ namespace Demo
             notificationProvider.Add(emailService);
             notificationProvider.Add(smsService);
 
-            Console.WriteLine("Choose encoder type:\n a) Audio Encoder\n b) Video Encoder\n c) Integer Encoder\n Default encoder is AudioEncoder");
+            Console.WriteLine("Choose encoder type:" + Environment.NewLine +
+                                "a) Audio Encoder " + Environment.NewLine +
+                                "b) Video Encoder" + Environment.NewLine +
+                                "c) Integer Encoder" + Environment.NewLine +
+                                "Default encoder is AudioEncoder");
 
-            EncoderFactory encoderFactory = null;
             var encoderType = Console.ReadLine();
 
-            encoderFactory = encoderType.ToLower() switch
-            {
-                "a" => new AudioFactory(),
-                "b" => new VideoFactory(),
-                "c" => new IntegerFactory(),
-                _ => new AudioFactory(),
-            };
+            var encoderFactory = EncoderFactoryExtension.GetEncoderFactory(encoderType);
 
             var encoder = encoderFactory.GetEncoder();
 

@@ -16,7 +16,7 @@ namespace Demo
             notificationProvider.Add(emailService);
             notificationProvider.Add(smsService);
 
-            Console.WriteLine("Choose encoder type:\n a) Audio Encoder\n b) Video Encoder\n Default encoder is AudioEncoder");
+            Console.WriteLine("Choose encoder type:\n a) Audio Encoder\n b) Video Encoder\n c) Integer Encoder\n Default encoder is AudioEncoder");
 
             EncoderFactory encoderFactory = null;
             var encoderType = Console.ReadLine();
@@ -25,6 +25,7 @@ namespace Demo
             {
                 "a" => new AudioFactory(),
                 "b" => new VideoFactory(),
+                "c" => new IntegerFactory(),
                 _ => new AudioFactory(),
             };
 

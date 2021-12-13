@@ -8,29 +8,29 @@ namespace Encoder
 {
     public abstract class BaseEncoder
     {
-        public event EventHandler Preparing;
-        public event EventHandler Starting;
-        public event EventHandler Finishing;
-        public event EventHandler Encoded;
+        public event EventHandler<EncoderEventArgs> Preparing;
+        public event EventHandler<EncoderEventArgs> Starting;
+        public event EventHandler<EncoderEventArgs> Finishing;
+        public event EventHandler<EncoderEventArgs> Encoded;
 
-        protected void OnPreparing()
+        protected void OnPreparing(EncoderEventArgs args)
         {
-            Preparing?.Invoke(this, EventArgs.Empty);
+            Preparing?.Invoke(this, args);
         }
 
-        protected void OnStarting()
+        protected void OnStarting(EncoderEventArgs args)
         {
-            Starting?.Invoke(this, EventArgs.Empty);
+            Starting?.Invoke(this, args);
         }
 
-        protected void OnFinishing()
+        protected void OnFinishing(EncoderEventArgs args)
         {
-            Finishing?.Invoke(this, EventArgs.Empty);
+            Finishing?.Invoke(this, args);
         }
 
-        protected void OnEncoded()
+        protected void OnEncoded(EncoderEventArgs args)
         {
-            Encoded?.Invoke(this, EventArgs.Empty);
+            Encoded?.Invoke(this, args);
         }
 
         public abstract void Encode(byte[] source);

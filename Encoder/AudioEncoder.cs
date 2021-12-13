@@ -11,13 +11,13 @@ namespace Encoder
     {
         public override void Encode(byte[] source)
         {
-            OnPreparing();
+            OnPreparing(new EncoderEventArgs("Audio is preparing to be encoded..."));
 
-            OnStarting();
+            OnStarting(new EncoderEventArgs("Started encoding..."));
 
-            OnFinishing();
+            OnFinishing(new EncoderEventArgs("Finishing encoding..."));
 
-            OnEncoded();
+            OnEncoded(new EncoderEventArgs("Finished encoding..."));
         }
     }
 }

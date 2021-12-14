@@ -1,7 +1,7 @@
 ﻿using Encoder;
-using Encoder.Factory;
 using Notification;
 using System;
+using System.Text;
 
 namespace Demo
 {
@@ -10,21 +10,19 @@ namespace Demo
         static void Main(string[] args)
         {
             var emailService = new EmailService();
-            var smsService = new SmsService();
+            var smsService = new SmsService();           
 
             var notificationProvider = new NotificationProvider();
             notificationProvider.Add(emailService);
             notificationProvider.Add(smsService);
 
-            Console.WriteLine("Choose encoder type:" + Environment.NewLine +
-                                "a) Audio Encoder " + Environment.NewLine +
-                                "b) Video Encoder" + Environment.NewLine +
-                                "c) Integer Encoder" + Environment.NewLine +
-                                "Default encoder is AudioEncoder");
+            var welcomeMessage = GetWelcomeMessage();
 
-            var encoderType = Console.ReadLine();
+            Console.WriteLine(welcomeMessage);
 
-            var encoderFactory = EncoderFactoryExtension.GetEncoderFactory(encoderType);
+            var encoderType = Console.ReadKey();
+
+            var encoderFactory = encoderType.KeyChar.GetEncoderFactory();
 
             var encoder = encoderFactory.GetEncoder();
 
@@ -33,13 +31,30 @@ namespace Demo
             encoder.Encode(null);
         }
 
-        static void SubscribeToEvents(BaseEncoder encoder, NotificationProvider notificationProvider)
+        private static void SubscribeToEvents(BaseEncoder encoder, NotificationProvider notificationProvider)
         {
             encoder.Preparing += (sender, args) => Console.WriteLine(args.Message);
             encoder.Starting += (sender, args) => Console.WriteLine(args.Message);
             encoder.Finishing += (sender, args) => Console.WriteLine(args.Message);
 
             encoder.Encoded += (sender, args) => notificationProvider.Notify();
+        }
+
+        private static StringBuilder GetWelcomeMessage()
+        {
+            var welcomeMessage = new StringBuilder();
+            welcomeMessage.Append("Welcome! Please, choose the encoder type:");
+            welcomeMessage.Append(Environment.NewLine);
+            welcomeMessage.Append("a) Audio Encoder");
+            welcomeMessage.Append(Environment.NewLine);
+            welcomeMessage.Append("v) Video Encoder");
+            welcomeMessage.Append(Environment.NewLine);
+            welcomeMessage.Append("i) Integer Encoder");
+            welcomeMessage.Append(Environment.NewLine);
+            welcomeMessage.Append("default encoder is AudioEncoder");
+            welcomeMessage.Append(Environment.NewLine);
+
+            return welcomeMessage;
         }
     }
 }

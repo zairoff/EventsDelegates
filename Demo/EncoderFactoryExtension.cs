@@ -1,21 +1,16 @@
 ﻿using Encoder.Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo
 {
     public static class EncoderFactoryExtension
     {
-        public static EncoderFactory GetEncoderFactory(this string encoderType)
+        public static EncoderFactory GetEncoderFactory(this char encoderType)
         {
-            return encoderType.ToLower() switch
+            return encoderType switch
             {
-                "a" => new AudioFactory(),
-                "b" => new VideoFactory(),
-                "c" => new IntegerFactory(),
+                'a' => new AudioFactory(),
+                'v' => new VideoFactory(),
+                'i' => new IntegerFactory(),
                 _ => new AudioFactory(),
             };
         }

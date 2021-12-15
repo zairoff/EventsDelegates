@@ -10,7 +10,7 @@ namespace Notification
     {
         public void Send(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"Sending email message: {message}");
         }
     }
 }

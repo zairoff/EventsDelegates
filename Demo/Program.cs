@@ -10,14 +10,16 @@ namespace Demo
 {
     class Program
     {
+        private static INotificationProvider _notificationProvider;
         static void Main(string[] args)
         {
             var emailService = new EmailService();
             var smsService = new SmsService();
-
-            var notificationProvider = new NotificationProvider();
-            notificationProvider.Add(emailService);
-            notificationProvider.Add(smsService);
+            var telegramService = new TelegramService();
+            _notificationProvider = new NotificationProvider();
+            _notificationProvider.Add(emailService);
+            _notificationProvider.Add(smsService);
+            _notificationProvider.Add(telegramService);
 
             Console.WriteLine(SourceUploadMessage());
 
@@ -69,8 +71,8 @@ namespace Demo
         }
 
         private static void EncoderOnEncoded(object sender, EncoderEventArgs args)
-        {          
-            Console.WriteLine(args.Message);
+        {
+            _notificationProvider.Notify(args.Message);
         }
 
         private static StringBuilder EncoderChooseMessage()

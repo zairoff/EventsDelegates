@@ -1,18 +1,15 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notification
 {
-    public class NotificationProvider
+    public class NotificationProvider : INotificationProvider
     {
-        private readonly List<INotificationService> _services;
+        private readonly HashSet<INotificationService> _services;
 
         public NotificationProvider()
         {
-            _services = new List<INotificationService>();
+            _services = new HashSet<INotificationService>();
         }
 
         public void Add(INotificationService service)
@@ -20,9 +17,14 @@ namespace Notification
             _services.Add(service);
         }
 
-        public void Notify()
+        public void Remove(INotificationService service)
         {
-            _services.ForEach(service => service.Send("Encoding is ready"));
+            _services.Remove(service);
+        }
+
+        public void Notify(string message)
+        {
+            _services.ToList().ForEach(service => service.Send(message));
         }
     }
 }

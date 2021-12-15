@@ -1,10 +1,7 @@
 ﻿using Encoder;
-using Encoder.Source;
 using Notification;
 using System;
-using System.Linq;
 using System.Text;
-using System.Reflection;
 
 namespace Demo
 {

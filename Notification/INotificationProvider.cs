@@ -5,5 +5,6 @@
         void Add(INotificationService service);
         void Remove(INotificationService service);
         void Notify(string message);
+        int Count();
     }
 }

@@ -26,5 +26,10 @@ namespace Notification
         {
             _services.ToList().ForEach(service => service.Send(message));
         }
+
+        public int Count()
+        {
+            return _services.Count;
+        }
     }
 }

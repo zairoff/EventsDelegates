@@ -8,7 +8,7 @@ namespace Encoder.Factory
         public override BaseEncoder GetEncoder(object source)
         {
             if (source is not Video)
-                throw new InvalidOperationException();
+                throw new FormatException("source format not supported");
 
             return new VideoEncoder((Video)source);
         }

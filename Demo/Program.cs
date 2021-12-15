@@ -1,4 +1,6 @@
 ﻿using Encoder;
+using Encoder.Factory;
+using Encoder.Source;
 using Notification;
 using System;
 using System.Text;
@@ -15,27 +17,29 @@ namespace Demo
             var telegramService = new TelegramService();
             _notificationProvider = new NotificationProvider();
 
+            _notificationProvider.Add(telegramService);
             _notificationProvider.Add(emailService);
             _notificationProvider.Add(smsService);
-            _notificationProvider.Add(telegramService);
 
-            Console.WriteLine(SourceUploadMessage());
-
-            var sourceType = Console.ReadKey();
-            Console.WriteLine(Environment.NewLine);
-
-            var source = sourceType.KeyChar.GetSource();
-
-            Console.WriteLine(EncoderChooseMessage());
+            Console.WriteLine(ShowEncoders());
 
             var encoderType = Console.ReadKey();
-            Console.WriteLine(Environment.NewLine);
+            Console.Write(Environment.NewLine);
 
-            var encoder = encoderType.KeyChar.GetEncoder(source);
-
-            SubscribeToEvents(encoder);
-
-            encoder.Encode();
+            try
+            {
+                var encoder = GetEncoder(encoderType.KeyChar);
+                SubscribeToEvents(encoder);
+                encoder.Encode();
+            }
+            catch(FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private static void SubscribeToEvents(BaseEncoder encoder)
@@ -73,36 +77,32 @@ namespace Demo
             _notificationProvider.Notify(args.Message);
         }
 
-        private static StringBuilder EncoderChooseMessage()
+        private static StringBuilder ShowEncoders()
         {
-            var message = new StringBuilder();
-            message.Append("Welcome! Please, choose the encoder type:");
-            message.Append(Environment.NewLine);
-            message.Append("a) Audio Encoder");
-            message.Append(Environment.NewLine);
-            message.Append("v) Video Encoder");
-            message.Append(Environment.NewLine);
-            message.Append("i) Integer Encoder");
-            message.Append(Environment.NewLine);
-            message.Append("default encoder is AudioEncoder");
-            message.Append(Environment.NewLine);
+            var encoders = new StringBuilder();
+            encoders.Append("Welcome! Please, choose the encoder type:");
+            encoders.Append(Environment.NewLine);
+            encoders.Append("a) Audio Encoder");
+            encoders.Append(Environment.NewLine);
+            encoders.Append("v) Video Encoder");
+            encoders.Append(Environment.NewLine);
+            encoders.Append("i) Integer Encoder");
+            encoders.Append(Environment.NewLine);
+            encoders.Append("default encoder is AudioEncoder");
+            encoders.Append(Environment.NewLine);
 
-            return message;
+            return encoders;
         }
 
-        private static StringBuilder SourceUploadMessage()
+        private static BaseEncoder GetEncoder(char encoderType)
         {
-            var message = new StringBuilder();
-            message.Append("Welcome! Please, load source to encode:");
-            message.Append(Environment.NewLine);
-            message.Append("a) Audio");
-            message.Append(Environment.NewLine);
-            message.Append("v) Video");
-            message.Append(Environment.NewLine);
-            message.Append("i) Integer");
-            message.Append(Environment.NewLine);
-
-            return message;
+            return encoderType switch
+            {
+                'a' => new AudioFactory().GetEncoder(new Audio()),
+                'v' => new VideoFactory().GetEncoder(new Video()),
+                'i' => new IntegerFactory().GetEncoder(new Random().Next(1, 100)),
+                _ => new AudioFactory().GetEncoder(new Audio())
+            };
         }
     }
 }

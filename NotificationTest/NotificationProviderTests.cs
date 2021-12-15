@@ -1,5 +1,4 @@
 using Notification;
-using System;
 using Xunit;
 
 namespace NotificationTest

@@ -77,7 +77,7 @@ namespace Demo
             _notificationProvider.Notify(args.Message);
         }
 
-        private static StringBuilder ShowEncoders()
+        private static string ShowEncoders()
         {
             var encoders = new StringBuilder();
             encoders.Append("Welcome! Please, choose the encoder type:");
@@ -91,7 +91,7 @@ namespace Demo
             encoders.Append("default encoder is AudioEncoder");
             encoders.Append(Environment.NewLine);
 
-            return encoders;
+            return encoders.ToString();
         }
 
         private static BaseEncoder GetEncoder(char encoderType)

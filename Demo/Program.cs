@@ -10,10 +10,11 @@ namespace Demo
         private static INotificationProvider _notificationProvider;
         static void Main(string[] args)
         {
-            var emailService = new EmailService();
             var smsService = new SmsService();
+            var emailService = new EmailService();
             var telegramService = new TelegramService();
             _notificationProvider = new NotificationProvider();
+
             _notificationProvider.Add(emailService);
             _notificationProvider.Add(smsService);
             _notificationProvider.Add(telegramService);

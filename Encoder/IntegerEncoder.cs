@@ -1,19 +1,19 @@
 ﻿namespace Encoder
 {
-    public class IntegerEncoder : BaseEncoder
+    public class IntegerEncoder : BaseEncoder 
     {
-        public int Random { get; private set; }
+        public int Source { get; private set; }
 
-        public IntegerEncoder(int randomNumber)
+        public IntegerEncoder(int source)
         {
-            Random = randomNumber;
+            Source = source;
         }
 
-        public override void Encode(byte[] source)
+        public override void Encode()
         {
-            OnPreparing(new EncoderEventArgs("Integer is preparing to be encoded... Random number is: " + Random));
+            var args = OnPreparing(new EncoderEventArgs("Integer is preparing to be encoded..." + Source));
 
-            if (Random % 2 != 0)
+            if (args.Stop)
                 return;
 
             OnStarting(new EncoderEventArgs("Starting encoding..."));

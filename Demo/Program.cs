@@ -1,7 +1,10 @@
 ﻿using Encoder;
+using Encoder.Source;
 using Notification;
 using System;
+using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Demo
 {
@@ -10,51 +13,96 @@ namespace Demo
         static void Main(string[] args)
         {
             var emailService = new EmailService();
-            var smsService = new SmsService();           
+            var smsService = new SmsService();
 
             var notificationProvider = new NotificationProvider();
             notificationProvider.Add(emailService);
             notificationProvider.Add(smsService);
 
-            var welcomeMessage = GetWelcomeMessage();
+            Console.WriteLine(SourceUploadMessage());
 
-            Console.WriteLine(welcomeMessage);
+            var sourceType = Console.ReadKey();
+            Console.WriteLine(Environment.NewLine);
+
+            var source = sourceType.KeyChar.GetSource();
+
+            Console.WriteLine(EncoderChooseMessage());
 
             var encoderType = Console.ReadKey();
+            Console.WriteLine(Environment.NewLine);
 
-            var encoderFactory = encoderType.KeyChar.GetEncoderFactory();
+            var encoder = encoderType.KeyChar.GetEncoder(source);
 
-            var encoder = encoderFactory.GetEncoder();
+            SubscribeToEvents(encoder);
 
-            SubscribeToEvents(encoder, notificationProvider);
-
-            encoder.Encode(null);
+            encoder.Encode();
         }
 
-        private static void SubscribeToEvents(BaseEncoder encoder, NotificationProvider notificationProvider)
+        private static void SubscribeToEvents(BaseEncoder encoder)
         {
-            encoder.Preparing += (sender, args) => Console.WriteLine(args.Message);
-            encoder.Starting += (sender, args) => Console.WriteLine(args.Message);
-            encoder.Finishing += (sender, args) => Console.WriteLine(args.Message);
+            encoder.Preparing += EncoderOnPreparing;
+            encoder.Starting += EncoderOnStarting;
+            encoder.Finishing += EncoderOnFinishing;
+            encoder.Encoded += EncoderOnEncoded;
+        }
+        private static void EncoderOnPreparing(object sender, EncoderEventArgs args)
+        {
+            // TODO: need to find another way
+            if(sender is int)
+            {
+                var encoder = (IntegerEncoder)sender;
+                if (encoder.Source % 2 != 0)
+                    args.Stop = true;
+            }
 
-            encoder.Encoded += (sender, args) => notificationProvider.Notify();
+            Console.WriteLine(args.Message);
         }
 
-        private static StringBuilder GetWelcomeMessage()
+        private static void EncoderOnStarting(object sender, EncoderEventArgs args)
         {
-            var welcomeMessage = new StringBuilder();
-            welcomeMessage.Append("Welcome! Please, choose the encoder type:");
-            welcomeMessage.Append(Environment.NewLine);
-            welcomeMessage.Append("a) Audio Encoder");
-            welcomeMessage.Append(Environment.NewLine);
-            welcomeMessage.Append("v) Video Encoder");
-            welcomeMessage.Append(Environment.NewLine);
-            welcomeMessage.Append("i) Integer Encoder");
-            welcomeMessage.Append(Environment.NewLine);
-            welcomeMessage.Append("default encoder is AudioEncoder");
-            welcomeMessage.Append(Environment.NewLine);
+            Console.WriteLine(args.Message);
+        }
 
-            return welcomeMessage;
+        private static void EncoderOnFinishing(object sender, EncoderEventArgs args)
+        {
+            Console.WriteLine(args.Message);
+        }
+
+        private static void EncoderOnEncoded(object sender, EncoderEventArgs args)
+        {          
+            Console.WriteLine(args.Message);
+        }
+
+        private static StringBuilder EncoderChooseMessage()
+        {
+            var message = new StringBuilder();
+            message.Append("Welcome! Please, choose the encoder type:");
+            message.Append(Environment.NewLine);
+            message.Append("a) Audio Encoder");
+            message.Append(Environment.NewLine);
+            message.Append("v) Video Encoder");
+            message.Append(Environment.NewLine);
+            message.Append("i) Integer Encoder");
+            message.Append(Environment.NewLine);
+            message.Append("default encoder is AudioEncoder");
+            message.Append(Environment.NewLine);
+
+            return message;
+        }
+
+        private static StringBuilder SourceUploadMessage()
+        {
+            var message = new StringBuilder();
+            message.Append("Welcome! Please, load source to encode:");
+            message.Append(Environment.NewLine);
+            message.Append("a) Audio");
+            message.Append(Environment.NewLine);
+            message.Append("v) Video");
+            message.Append(Environment.NewLine);
+            message.Append("i) Integer");
+            message.Append(Environment.NewLine);
+
+            return message;
         }
     }
 }

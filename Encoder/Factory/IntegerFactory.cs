@@ -4,9 +4,12 @@ namespace Encoder.Factory
 {
     public class IntegerFactory : EncoderFactory
     {
-        public override BaseEncoder GetEncoder()
+        public override BaseEncoder GetEncoder(object source)
         {
-            return new IntegerEncoder(new Random().Next(1, 100));
+            if (source is not int)
+                throw new InvalidOperationException();
+
+            return new IntegerEncoder((int)source);
         }
     }
 }

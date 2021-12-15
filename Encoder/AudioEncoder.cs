@@ -1,8 +1,16 @@
-﻿namespace Encoder
+﻿using Encoder.Source;
+
+namespace Encoder
 {
     public class AudioEncoder : BaseEncoder
     {
-        public override void Encode(byte[] source)
+        private readonly Audio _source;
+
+        public AudioEncoder(Audio source)
+        {
+            _source = source;
+        }
+        public override void Encode()
         {
             OnPreparing(new EncoderEventArgs("Audio is preparing to be encoded..."));
 

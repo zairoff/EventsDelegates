@@ -9,26 +9,34 @@ namespace Encoder
         public event EventHandler<EncoderEventArgs> Finishing;
         public event EventHandler<EncoderEventArgs> Encoded;
 
-        protected void OnPreparing(EncoderEventArgs args)
+        protected EncoderEventArgs OnPreparing(EncoderEventArgs args)
         {
             Preparing?.Invoke(this, args);
+
+            return args;
         }
 
-        protected void OnStarting(EncoderEventArgs args)
+        protected EncoderEventArgs OnStarting(EncoderEventArgs args)
         {
             Starting?.Invoke(this, args);
+
+            return args;
         }
 
-        protected void OnFinishing(EncoderEventArgs args)
+        protected EncoderEventArgs OnFinishing(EncoderEventArgs args)
         {
             Finishing?.Invoke(this, args);
+
+            return args;
         }
 
-        protected void OnEncoded(EncoderEventArgs args)
+        protected EncoderEventArgs OnEncoded(EncoderEventArgs args)
         {
             Encoded?.Invoke(this, args);
+
+            return args;
         }
 
-        public abstract void Encode(byte[] source);
+        public abstract void Encode();
     }
 }

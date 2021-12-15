@@ -1,8 +1,17 @@
-﻿namespace Encoder
+﻿using Encoder.Source;
+
+namespace Encoder
 {
     public class VideoEncoder : BaseEncoder
     {
-        public override void Encode(byte[] source)
+        private readonly Video _source;
+
+        public VideoEncoder(Video source)
+        {
+            _source = source;
+        }
+
+        public override void Encode()
         {
             OnPreparing(new EncoderEventArgs("Video is preparing to be encoded..."));
 

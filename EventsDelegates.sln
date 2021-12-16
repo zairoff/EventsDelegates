@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{4CC3F7F8-319E-4A68-A5F6-C93AFEC6FCF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "src\Demo\Demo.csproj", "{4CC3F7F8-319E-4A68-A5F6-C93AFEC6FCF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoder", "Encoder\Encoder.csproj", "{B8B68068-4971-4D09-8B37-44EB52D7769A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encoder", "src\Encoder\Encoder.csproj", "{B8B68068-4971-4D09-8B37-44EB52D7769A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification", "Notification\Notification.csproj", "{98DC7C81-9188-4184-AB0F-B928A2B37BC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification", "src\Notification\Notification.csproj", "{98DC7C81-9188-4184-AB0F-B928A2B37BC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncoderTest", "EncoderTest\EncoderTest.csproj", "{DED3C76E-0E9F-4304-A8D0-D7437B279EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncoderTest", "tests\EncoderTest\EncoderTest.csproj", "{DED3C76E-0E9F-4304-A8D0-D7437B279EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationTest", "NotificationTest\NotificationTest.csproj", "{6DCEF6C9-7200-4EE6-8D01-EF103FFD757A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationTest", "tests\NotificationTest\NotificationTest.csproj", "{6DCEF6C9-7200-4EE6-8D01-EF103FFD757A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

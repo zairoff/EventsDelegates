@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\External\External.csproj" />
+    <ProjectReference Include="..\Encoder\Encoder.csproj" />
+    <ProjectReference Include="..\Notification\Notification.csproj" />
   </ItemGroup>
 
 </Project>
